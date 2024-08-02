@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --cell-width: calc(100 / 32 * 1%);
+    --app-padding: 10px;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#main {
+    height: calc(100% - var(--app-padding) * 2);
+    width: calc(100% - var(--app-padding) * 2);
+    display: flex;
+    flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    padding: 0;
+    margin: 0;
+}
+
+* {
+    color: #0D1F59;
+    font-family: "Source Sans 3", sans-serif;
+}
+
+.complex {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+table {
+    table-layout: fixed;
+    width: 99%;
+    border-spacing: 5px;
+}
+
+th {
+    padding: 10px 0;
+    width: var(--cell-width);
+}
+
+td {
+    max-width: var(--cell-width);
+    min-width: var(--cell-width);
+    width: var(--cell-width);
+    background-color: white;
+    padding: 7px 0;
+    padding-left: 0.3%;
+}
+
+.time {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 60%;
+    font-size: 36px;
+}
+
+th.pool {
+    text-align: left;
+    width: calc(var(--cell-width) * 2.0862);
+}
+
+p.pool {
+    font-size: 2.4rem;
+    font-weight: 600;
+    line-height: 1.6rem;
+    color: #1590D7;
+    width: max-content;
+}
+
+.lane {
+    color: #787C89;
+    text-align: center;
+    width: calc(var(--cell-width) * 2.0862);
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    padding: 0;
+}
+
+.team {
+    font-size: 2.6rem;
+    line-height: 2.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

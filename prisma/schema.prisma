@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Team {
+  id        Int        @id @default(autoincrement())
+  name      String
+  color     String
+  schedules Schedule[]
+}
+
+model Pool {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  lanes     Lane[]
+  schedules Schedule[]
+}
+
+model Lane {
+  id        Int        @id @default(autoincrement())
+  index     Int
+  poolId    Int
+  pool      Pool       @relation(fields: [poolId], references: [id])
+  schedules Schedule[]
+}
+
+model Schedule {
+  id       Int  @id @default(autoincrement())
+  weekday  Int
+  poolId   Int
+  laneId   Int
+  teamId   Int
+  pool     Pool @relation(fields: [poolId], references: [id])
+  lane     Lane @relation(fields: [laneId], references: [id])
+  team     Team @relation(fields: [teamId], references: [id])
+  interval Int
+}

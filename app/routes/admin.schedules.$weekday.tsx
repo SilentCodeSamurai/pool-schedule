@@ -1,7 +1,7 @@
 import { Team, Schedule } from "@prisma/client";
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { json, useLoaderData, useSubmit } from "@remix-run/react";
-import { useCallback, useEffect, useState } from "react";
+import { json, useActionData, useLoaderData, useSubmit } from "@remix-run/react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { EditTable } from "~/components/editTable";
 import { PoolComplexRawSchedule, PoolName } from "~/types";
 import { db } from "~/utils/db.server";
@@ -17,7 +17,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 	if (!schedule) throw new Response("No schedule provided", { status: 404 });
 	await db.schedule.deleteMany({ where: { weekday: Number(weekday) } });
 	await db.schedule.createMany({ data: JSON.parse(schedule.toString()) });
-	return null;
+	return { ok: true };
 };
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
@@ -47,13 +47,26 @@ export default function ScheduleEdit() {
 	const { weekday, teams, table, pools } = useLoaderData<typeof loader>();
 	const [selectedTeamId, setSelectedTeamId] = useState<number | undefined>(teams[0]?.id);
 	const selectedTeam = selectedTeamId ? teams.find((team) => team.id === selectedTeamId) : undefined;
-	const [poolComplexSchedule, setPoolComplexSchedule] = useState<PoolComplexRawSchedule>(table);
+	const [poolComplexSchedule, setPoolComplexSchedule] = useState<PoolComplexRawSchedule>(structuredClone(table));
+	const actionData = useActionData<typeof action>();
+
+	const dataUnchanged = useMemo(
+		() => JSON.stringify(poolComplexSchedule) === JSON.stringify(table),
+		[table, poolComplexSchedule]
+	);
 
 	useEffect(() => {
-		setPoolComplexSchedule(table);
+		if (actionData?.ok) {
+			alert("Расписание обновлено");
+		}
+	}, [actionData]);
+
+	useEffect(() => {
+		setPoolComplexSchedule(structuredClone(table));
 	}, [table]);
 
 	const handleSave = () => {
+		if (dataUnchanged) return;
 		const newSchedules: ScheduleCreate[] = [];
 		for (const poolName in poolComplexSchedule) {
 			const pool = pools.find((pool) => pool.name === String(poolName));
@@ -91,7 +104,7 @@ export default function ScheduleEdit() {
 	return (
 		<>
 			<div>
-				<div className="flex flex-row justify-between">
+				<div className="flex flex-row justify-between items-center">
 					<select
 						className="w-96 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						value={selectedTeamId}
@@ -108,8 +121,15 @@ export default function ScheduleEdit() {
 							</option>
 						))}
 					</select>
+					<p className="text-md text-gray-700 align-middle">
+						Выберите команду слева. Используйте левую кнопку мыши для назначения команды на интервал, правую
+						- для очистки интервала.
+					</p>
 					<button
-						className="text-xl bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+						disabled={dataUnchanged}
+						className={`text-xl text-white font-bold py-2 px-4 rounded ${
+							dataUnchanged ? "bg-gray-500" : "bg-green-500 hover:bg-green-700"
+						}`}
 						onClick={() => handleSave()}
 					>
 						Сохранить

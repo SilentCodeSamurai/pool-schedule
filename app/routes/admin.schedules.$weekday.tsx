@@ -104,7 +104,7 @@ export default function ScheduleEdit() {
 	return (
 		<>
 			<div>
-				<div className="flex flex-row justify-between items-center">
+				<div className="px-4 flex flex-row justify-between items-center">
 					<select
 						className="w-96 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 						value={selectedTeamId}
@@ -136,7 +136,7 @@ export default function ScheduleEdit() {
 					</button>
 				</div>
 			</div>
-			<div style={{ flexShrink: 0, flexGrow: 1 }} className="flex flex-col">
+			<div style={{ flexShrink: 0, flexGrow: 1 }} className="flex flex-col px-2">
 				<EditTable
 					name={"M25"}
 					onLanesChange={handleChangeLanes}

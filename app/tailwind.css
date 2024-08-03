@@ -4,7 +4,7 @@
 
 :root {
     --cell-width: calc(100 / 32 * 1%);
-    --app-padding: 10px;
+    --app-padding: 12px;
 }
 
 body {
@@ -19,8 +19,11 @@ body {
 }
 
 #main {
-    height: calc(100% - var(--app-padding) * 2);
-    width: calc(100% - var(--app-padding) * 2);
+    /* height: calc(100% - var(--app-padding) * 2);
+    width: calc(100% - var(--app-padding) * 2); */
+    height: 100%;
+    width: 100%;
+    padding: var(--app-padding);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -87,6 +90,7 @@ p.pool {
     line-height: 1.6rem;
     color: #1590D7;
     width: max-content;
+    letter-spacing: -0.03rem;
 }
 
 .lane {

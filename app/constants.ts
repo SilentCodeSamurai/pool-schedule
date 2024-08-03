@@ -15,3 +15,5 @@ export const poolTitlesMapping: Record<PoolName, string> = {
 	M25_N: "25 м новый",
 	M25_C: "25 м крытый",
 };
+
+export const refreshInterval = 5 * 60 * 1000;

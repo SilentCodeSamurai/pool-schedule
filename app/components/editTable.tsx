@@ -59,7 +59,7 @@ const EditTable: React.FC<Props> = ({ name, lanes, selectedTeam, onLanesChange, 
 			<thead>
 				<tr style={{ position: "relative" }}>
 					<th className="pool">
-						<p className="pool" style={{ fontSize: "0.8rem" }}>
+						<p className="pool" style={{ fontSize: "1rem" }}>
 							{poolTitlesMapping[name]}
 						</p>
 					</th>
@@ -94,7 +94,7 @@ const EditTable: React.FC<Props> = ({ name, lanes, selectedTeam, onLanesChange, 
 			<tbody>
 				{lanes.map((lane, rowIndex) => (
 					<tr key={rowIndex}>
-						<td className="lane" style={{ fontSize: "0.8rem" }}>{`Дорожка ${rowIndex + 1}`}</td>
+						<td className="lane" style={{ fontSize: "1rem" }}>{`Дорожка ${rowIndex + 1}`}</td>
 						{lane.map((team, colIndex) => (
 							<td
 								role="gridcell"
@@ -107,7 +107,7 @@ const EditTable: React.FC<Props> = ({ name, lanes, selectedTeam, onLanesChange, 
 									padding: "0",
 								}}
 							>
-								<p className="team" style={{ textOverflow: "clip", fontSize: "0.8rem" }}>
+								<p className="team" style={{ textOverflow: "clip", fontSize: "1rem", fontWeight: 500 }}>
 									{team?.name}
 								</p>
 							</td>

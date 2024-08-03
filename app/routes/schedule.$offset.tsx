@@ -2,7 +2,7 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import logo from "~/assets/logo.png";
-import { poolTitlesMapping } from "~/constants";
+import { poolTitlesMapping, refreshInterval } from "~/constants";
 import { PoolName } from "~/types";
 import { db } from "~/utils/db.server";
 import { generatePoolTables, getGroupedSchedule } from "~/utils/table";
@@ -52,7 +52,7 @@ function App() {
 			return () => {
 				clearTimeout(refreshTimeout);
 			};
-		}, 3000);
+		}, refreshInterval);
 		return () => {
 			clearTimeout(animationTimeout);
 			clearTimeout(showNextCycle);

@@ -2,9 +2,10 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { json, useLoaderData, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react";
 import logo from "~/assets/logo.png";
-import { poolTitlesMapping, refreshInterval } from "~/constants";
+import { poolTitlesMapping } from "~/constants";
 import { PoolName } from "~/types";
 import { db } from "~/utils/db.server";
+import { safeParseInt } from "~/utils/parse";
 import { generatePoolTables, getGroupedSchedule } from "~/utils/table";
 
 const options: Intl.DateTimeFormatOptions = {
@@ -31,12 +32,14 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 		rawTable[pool.name as PoolName][lane.index][interval] = team;
 	}
 	const schedule = getGroupedSchedule(rawTable);
-	return json({ schedule, dateString, offset });
+
+	const refreshInterval = safeParseInt(process.env.REFRESH_INTERVAL, 30 * 1000);
+	return json({ schedule, dateString, offset, refreshInterval });
 };
 
 function App() {
 	const navigate = useNavigate();
-	const { schedule, dateString, offset } = useLoaderData<typeof loader>();
+	const { schedule, dateString, offset, refreshInterval } = useLoaderData<typeof loader>();
 	const [fadeAnimation, setFadeAnimation] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -57,7 +60,7 @@ function App() {
 			clearTimeout(animationTimeout);
 			clearTimeout(showNextCycle);
 		};
-	}, [offset, navigate]);
+	}, [offset, navigate, refreshInterval]);
 
 	return (
 		<div id="main">

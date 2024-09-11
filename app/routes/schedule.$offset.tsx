@@ -1,12 +1,13 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { generatePoolTables, getGroupedSchedule } from "~/utils/table";
 import { json, useLoaderData, useNavigate } from "@remix-run/react";
 import { useEffect, useState } from "react";
-import logo from "~/assets/logo.png";
-import { poolTitlesMapping } from "~/constants";
+
+import { LoaderFunctionArgs } from "@remix-run/node";
 import { PoolName } from "~/types";
 import { db } from "~/utils/db.server";
+import logo from "~/assets/logo.png";
+import { poolTitlesMapping } from "~/constants";
 import { safeParseInt } from "~/utils/parse";
-import { generatePoolTables, getGroupedSchedule } from "~/utils/table";
 
 const options: Intl.DateTimeFormatOptions = {
 	day: "numeric",
@@ -49,7 +50,7 @@ function App() {
 		const showNextCycle = setTimeout(() => {
 			setFadeAnimation(true);
 			const refreshTimeout = setTimeout(() => {
-				const nextOffset = offset === 2 ? 0 : offset + 1;
+				const nextOffset = offset === 1 ? 0 : offset + 1;
 				navigate(`/schedule/${nextOffset}`);
 			}, 1000);
 			return () => {

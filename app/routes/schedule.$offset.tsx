@@ -72,6 +72,7 @@ function App() {
 						fontWeight: 600,
 						lineHeight: "40px",
 						letterSpacing: "-0.2px",
+						color: "#EF6D6D",
 					}}
 				>
 					{new Intl.DateTimeFormat("ru-RU", options).format(new Date(dateString))}

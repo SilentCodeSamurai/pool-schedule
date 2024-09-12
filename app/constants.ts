@@ -12,6 +12,6 @@ export const poolTitlesMapping: Record<PoolName, string> = {
 	M25: "25 метров",
 	M50: "50 метров",
 	M25_2: "25 метров",
-	M25_N: "25 м новый",
+	M25_N: "25 м крытый",
 	M25_C: "50 м виллы",
 };
